@@ -26,7 +26,14 @@ public class Main {
                 System.out.println("Le joueur " + player + " a gagné la partie ! :");
                 break;
             }
-            
+
+            if (game.checkDraw()) {
+                System.out.println(game);
+                System.out.println("Match NUL !");
+                break;
+            }
+
+
             player = nextPlayer(player);
         }
 
