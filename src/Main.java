@@ -21,6 +21,12 @@ public class Main {
 
             game.processInput(player, playerInput);
 
+            if (game.checkWin()) {
+                System.out.println(game);
+                System.out.println("Le joueur " + player + " a gagné la partie ! :");
+                break;
+            }
+            
             player = nextPlayer(player);
         }
 
