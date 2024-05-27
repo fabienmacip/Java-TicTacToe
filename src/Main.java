@@ -2,7 +2,10 @@ import com.webfm.exceptions.TicTacToeInvalidInputException;
 import com.webfm.game.Player;
 import com.webfm.game.TicTacToe;
 
+import java.util.HashMap;
 import java.util.Scanner;
+
+import static com.webfm.constants.StringConstant.BLANK;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -13,18 +16,19 @@ public class Main {
         final var game = new TicTacToe();
 
         var player = Player.FIRST;
+        var players = initPlayers();
 
         while (true) {
             try {
                 System.out.println(game);
-                System.out.println("Joueur " + player + ", veuillez saisir un des chiffres [1-9] :");
+                System.out.println("Joueur " + players.get(player) + ", veuillez saisir un des chiffres [1-9] :");
                 final var inputUser = getInputUser();
 
                 game.processInput(player, (Integer) inputUser);
 
                 if (game.checkWin()) {
                     System.out.println(game);
-                    System.out.println("Le joueur " + player + " a gagné la partie ! :");
+                    System.out.println("Le joueur " + players.get(player) + " a gagné la partie ! :");
                     break;
                 }
 
@@ -44,6 +48,20 @@ public class Main {
 
         }
 
+    }
+
+    private static HashMap<Player, String> initPlayers() {
+        var players = new HashMap<Player, String>();
+        var scanner = new Scanner(System.in);
+        do {
+            System.out.println("Saississez le nom du joueur 1 : ");
+            players.put(Player.FIRST, scanner.nextLine());
+        } while(players.get(Player.FIRST).equals(BLANK));
+        do {
+            System.out.println("Saississez le nom du joueur 2 : ");
+            players.put(Player.SECOND, scanner.nextLine());
+        } while(players.get(Player.SECOND).equals(BLANK));
+        return players;
     }
 
     private static Object getInputUser() throws TicTacToeInvalidInputException {
