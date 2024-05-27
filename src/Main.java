@@ -37,6 +37,8 @@ public class Main {
                 player = nextPlayer(player);
             } catch (TicTacToeInvalidInputException e){
                 System.out.println(e.getMessage());
+            } catch (NumberFormatException e) {
+                System.out.println("Vous devez un chiffre entre 1 et 9.");
             }
 
 
@@ -46,11 +48,15 @@ public class Main {
 
     private static Object getInputUser() throws TicTacToeInvalidInputException {
         final var scanner = new Scanner(System.in);
-        var input = scanner.nextInt();
-        if(input < 1 || input > 9) {
+        var input = scanner.nextLine();
+        if(input.equals("exit") || input.equals("quit") || input.equals("q")) {
+            System.exit(0);
+        }
+        var inputEntier = Integer.parseInt(input);
+        if(inputEntier < 1 || inputEntier > 9) {
             throw new TicTacToeInvalidInputException("Le chiffre doit être entre 1 et 9.");
         }
-        return input;
+        return inputEntier;
     }
 
     private static Player nextPlayer(Player player) {
