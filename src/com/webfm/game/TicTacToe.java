@@ -11,6 +11,18 @@ public class TicTacToe {
             {'.', '.', '.'}
     };
 
+    public void processInput(Player player, int playerInput) {
+        final var row = (playerInput - 1) / 3;
+        final var column = (playerInput - 1) % 3;
+        if (grid[row][column] == '.') {
+            if (player.equals(Player.FIRST)) {
+                grid[row][column] = 'X';
+            } else {
+                grid[row][column] = 'O';
+            }
+        }
+    }
+
     @Override
     public String toString() {
         final var builder = new StringBuilder();
