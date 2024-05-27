@@ -1,3 +1,4 @@
+import com.webfm.exceptions.TicTacToeInvalidInputException;
 import com.webfm.game.Player;
 import com.webfm.game.TicTacToe;
 
@@ -9,34 +10,47 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        final var scanner = new Scanner(System.in);
         final var game = new TicTacToe();
 
         var player = Player.FIRST;
 
         while (true) {
-            System.out.println(game);
-            System.out.println("Joueur " + player + ", veuillez saisir un des chiffres [1-9] :");
-            final var playerInput = scanner.nextInt();
-
-            game.processInput(player, playerInput);
-
-            if (game.checkWin()) {
+            try {
                 System.out.println(game);
-                System.out.println("Le joueur " + player + " a gagné la partie ! :");
-                break;
+                System.out.println("Joueur " + player + ", veuillez saisir un des chiffres [1-9] :");
+                final var inputUser = getInputUser();
+
+                game.processInput(player, (Integer) inputUser);
+
+                if (game.checkWin()) {
+                    System.out.println(game);
+                    System.out.println("Le joueur " + player + " a gagné la partie ! :");
+                    break;
+                }
+
+                if (game.checkDraw()) {
+                    System.out.println(game);
+                    System.out.println("Match NUL !");
+                    break;
+                }
+
+                player = nextPlayer(player);
+            } catch (TicTacToeInvalidInputException e){
+                System.out.println(e.getMessage());
             }
 
-            if (game.checkDraw()) {
-                System.out.println(game);
-                System.out.println("Match NUL !");
-                break;
-            }
 
-
-            player = nextPlayer(player);
         }
 
+    }
+
+    private static Object getInputUser() throws TicTacToeInvalidInputException {
+        final var scanner = new Scanner(System.in);
+        var input = scanner.nextInt();
+        if(input < 1 || input > 9) {
+            throw new TicTacToeInvalidInputException("Le chiffre doit être entre 1 et 9.");
+        }
+        return input;
     }
 
     private static Player nextPlayer(Player player) {

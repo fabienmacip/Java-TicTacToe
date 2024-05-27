@@ -1,5 +1,9 @@
 package com.webfm.game;
 
+import com.webfm.exceptions.TicTacToeInvalidInputException;
+
+import java.util.concurrent.TimeoutException;
+
 import static com.webfm.constants.StringConstant.LINE_SEPARATOR;
 import static com.webfm.constants.StringConstant.SPACE;
 
@@ -11,7 +15,7 @@ public class TicTacToe {
             {'.', '.', '.'}
     };
 
-    public void processInput(Player player, int playerInput) {
+    public void processInput(Player player, int playerInput) throws TicTacToeInvalidInputException {
         final var row = (playerInput - 1) / 3;
         final var column = (playerInput - 1) % 3;
         if (grid[row][column] == '.') {
@@ -20,6 +24,8 @@ public class TicTacToe {
             } else {
                 grid[row][column] = 'O';
             }
+        } else {
+            throw new TicTacToeInvalidInputException("La case est déjà occupée, veuillez saisir un nombre valide.");
         }
     }
 
